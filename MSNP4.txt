@@ -1,0 +1,669 @@
+MSNP4
+该协议版本为第二版，但却是第一个在公开可用的软件中使用的版本。
+
+使用此版本协议的 MSN Messenger 客户端版本：
+
+MSN Messenger 3.xx
+MSN Messenger 4.xx
+Windows Messenger 4.xx（低于4.7.2009的版本）
+
+协议命令列表：
+
+调度服务器：（示例会话）
+INF / OUT / USR / XFR / VER
+
+通知服务器：（示例会话）
+ADD / BLP / CHG / FLN / GTC / INF / ILN / LST /  MSG
+NLN / OUT / REA /  REM / RNG / SYN / USR / VER / XFR
+
+交换机服务器：（示例会话）
+ACK / BYE / CAL / IRO / JOI / MSG / NAK / OUT / USR
+
+
+ACK
+上下文：交换机到客户端
+功能：消息成功传递后向客户端发送确认。
+
+用法：
+S->C: ACK [TransactionID]
+
+例子：
+C->S: ACK 3
+
+
+添加
+上下文：客户端到通知
+函数：请求将联系人添加到指定的联系人列表。第二个参数是接收联系人的列表。第三个参数是要添加的联系人的帐户。第四个参数也是要添加的联系人的帐户，但虽然必须存在，其内容可以忽略。
+
+用法：
+C->S: ADD [TransactionID] [ListType] [Account] [Account]
+
+例子：
+C->S: ADD 23 FL friend@hotmail.com friend@hotmail.com
+
+上下文：客户端通知
+函数：返回从联系人列表中删除联系人的请求结果。第二个参数是联系人被添加到的列表。第三个参数是更新后用户数据的新版本。第四个参数是被添加的帐户。此用法也适用于将用户添加到另一个用户的列表的情况，服务器可以异步发送此通知，告知客户端联系人列表的更改。
+
+用法：
+S->C: ADD [TransactionID] [ListType] [ListVersion] [Account] [Account]
+
+例子：
+S->C: ADD 23 FL 13 friend@hotmail.com friend@hotmail.com
+
+列表类型如下：
+
+FL（转发列表 – 用户希望关注的用户）
+AL（允许列表 – 用户希望允许联系的用户）
+BL（黑名单 – 用户不希望被联系的用户）
+RL（反向列表 – 关注该用户的其他帐户，用户无法修改）
+
+答案
+上下文：客户端到交换机
+功能：接受来自其他用户的会话请求。第二个参数是用户的帐户。第三个参数是上一个 RNG 命令中提供的密钥。第四个参数是会话 ID。
+
+用法 示例：
+C->S: ANS [TransactionID] [Account] [Key] [SessionID]
+
+
+C->S: ANS 30 msnuser@hotmail.com 849102291.520491932 2036087
+
+上下文：总机到客户端
+功能：确认接受对话请求。
+
+用法：
+S->C: ANS [TransactionID] OK
+
+例子：
+S->C: ANS 30 OK
+
+
+BLP
+上下文：客户端到通知
+功能：请求更改用户的消息隐私设置，允许或禁止接收来自非联系人的消息。第二个参数指示所需的隐私设置，“AL”表示允许接收来自当前阻止列表中所有用户的消息，“BL”表示仅允许接收来自当前允许列表中用户的消息。
+
+用法：
+C->S: BLP [TransactionID] [AL|BL]
+
+例子：
+C->S: BLP 14 BL
+
+上下文：客户端通知
+函数：返回设置用户消息隐私设置的请求结果。第二个参数是用户数据的新版本。第三个参数指示当前激活的隐私设置，其中“AL”表示允许接收来自当前黑名单之外的所有用户的消息，“BL”表示仅允许接收来自当前允许列表中的用户的消息。
+
+用法：
+S->C: BLP [TransactionID] [ListVersion] [AL|BL]
+
+例子：
+C->S: BLP 14 BL
+
+
+BYE
+上下文：交换机到客户端
+功能：通知客户端某个用户已退出对话。只需要一个参数，即退出对话的用户的帐户。
+
+用法：
+S->C: BYE [Account]
+
+例子：
+S->C: BYE friend@hotmail.com
+
+
+CAL
+上下文：客户端到交换机
+功能：请求与其他用户建立会话。第二个参数是目标接收者的帐户。
+
+用法：
+C->S: CAL [TransactionID] [Account]
+
+例子：
+C->S: CAL 20 friend@hotmail.com
+
+上下文：交换机至客户端
+功能：确认会话请求。第二个参数为“RINGING”，表示服务器正在呼叫目标接收方。第三个参数是提供给会话的会话 ID。
+
+用法：
+S->C: CAL [TransactionID] RINGING [SessionID]
+
+例子：
+S->C: CAL 20 RINGING 204948
+
+
+CHG
+上下文：客户端到通知
+函数：请求更改用户的当前状态。第二个参数是新状态。
+
+用法：
+C->S: CHG [TransactionID] [Status]
+
+例子：
+C->S: CHG 15 LUN
+
+上下文：通知客户端
+函数：返回设置用户状态的请求结果。第二个参数是新的状态。
+
+用法：
+S->C: CHG [TransactionID] [Status]
+
+例子：
+S->C: CHG 15 LUN
+
+状态列表：
+
+AWY (Away)
+BRB (Be Right Back)
+BSY (Busy)
+FLN (Offline)
+HDN (Appear Offline)
+IDL (Idle)
+LUN (Out To Lunch)
+NLN (Online)
+PHN (On The Phone)
+
+CVR
+上下文：客户端到通知
+功能：发送客户端版本信息。第二个参数是客户端本地信息。第三个参数是客户端主机操作系统。第四个参数是操作系统版本。第五个参数是主机架构。第六个参数是客户端标识符。第七个参数是客户端版本。
+
+用法 示例：
+C->S: CVR [TransactionID] [Locale] [OS] [OSVer] [Platform] [Client] [ClientVer]
+
+
+C->S: CVR 10 0x0409 win 4.90 i386 MSMSGS 2.2.1053 MSMSGS
+
+上下文：客户端通知
+功能：发送最低和推荐客户端版本号、当前客户端下载 URL 和客户端信息 URL。第二个参数是推荐客户端版本。第三个参数也是推荐版本。第四个参数是最低版本，低于此版本将禁止客户端连接并断开连接。第五个参数是最新客户端版本的下载 URL。第六个参数是提供有关客户端或服务信息的 URL。
+
+用法
+S->C: CVR [TransactionID] [RecVer] [RecVer] [MinVer] [DownloadURL] [InfoURL]
+
+示例：
+S->C: CVR 10 2.2.1053 2.2.1053 2.2.1053 http://messenger.hotmail.com/mmsetup.exe http://messenger.hotmail.com
+
+
+FLN
+上下文： 通知客户端
+功能：通知客户端联系人的状态更改为“离线”。
+
+用法：
+S->C: FLN [Account]
+
+例子：
+S->C: FLN friend@hotmail.com
+
+
+GTC
+上下文：客户端到通知
+功能：请求更改用户的联系人隐私设置，允许或禁止接收非联系人的消息。第二个参数指示所需的隐私设置，“A”表示当用户被添加到其他用户的联系人列表时发出提醒，“N”表示接受该联系人而不发出提醒。
+
+用法：
+C->S: GTC [TransactionID] [A|N]
+
+例子：
+C->S: GTC 16 N
+
+上下文：客户端通知
+函数：返回设置用户联系人隐私设置的请求结果。第二个参数是用户数据的新版本。第三个参数指示当前激活的隐私设置，其中“A”表示当用户被添加到其他用户的联系人列表时发出提醒，“N”表示接受添加联系人而不发出提醒。
+
+用法：
+S->C: GTC [TransactionID] [ListVersion] [A|N]
+
+例子：
+S->C: GTC 16 19 N
+
+
+INF
+上下文：客户端到 Dispatch， 客户端到 Notification
+功能：请求连接所需的身份验证方法。此命令除了事务 ID 之外不需要其他参数。
+
+用法：
+C->S: INF [TransactionID]
+
+例子：
+C->S: INF 2
+
+上下文：向客户端发送消息， 向客户端发送通知
+。功能：向客户端发送包含身份验证方法的响应。第二个参数是身份验证方法。MSNP2 仅使用 MD5，因此该参数始终为“MD5”。
+
+用法：
+S->C: INF [TransactionID] MD5
+
+例子：
+S->C: INF 2 MD5
+
+
+ILN
+上下文： 通知客户端
+功能：通常在执行 ADD 或 SYN 命令后，通知客户端联系人的状态。第二个参数是相关联系人的状态。第三个参数是联系人的帐户。第四个参数是联系人的昵称。
+
+用法：
+S->C: ILN [TransactionID] [Status] [Account] [Nickname]
+
+例子：
+S->C: ILN 31 NLN sarah@hotmail.com ~~sarah~~
+
+
+IRO
+背景：交换机到客户端
+功能：在客户端加入对话时通知所有现有参与者。
+
+用法：
+S->C: IRO [TransactionID] [Participant#] [TotalParticipants] [Account] [Nickname]
+
+示例（三方对话，两个现有用户加上一个加入用户）：
+S->C: IRO 18 1 2 friend@hotmail.com Friend
+S->C: IRO 18 2 2 otherfriend@hotmail.com Friend%20The%20Second
+
+
+JOI
+上下文：交换机到客户端
+功能：通知客户端有用户加入现有对话。第一个参数是加入用户的帐户。第二个参数是加入用户的昵称。
+
+用法：
+S->C: JOI [Account] [Nickname]
+
+例子：
+S->C: JOI person@hotmail.com Dan
+
+
+LST
+上下文：客户端到通知
+函数：从服务器请求联系人列表数据。
+
+用法：
+C->S: LST [TransactionID] [ListType]
+
+示例（检索用户的转发列表）：
+C->S: LST 8 FL
+
+上下文：通知客户端
+功能：向客户端提供联系人列表数据。可能是对客户端直接发送的 LST 命令或请求所有可用列表数据的 SYN 命令的响应。每个列表需要发送的行数与列表中的项目数相同。在下面的示例中，用户的转发列表中有四个朋友，因此有四行编号。
+
+用法：
+S->C: LST [TransactionID] [ListType] [ListVersion] [ItemNumber] [TotalItems] [Account] [Nickame]
+
+例子：
+S->C: LST 8 FL 12 1 4 friend@hotmail.com Friend
+S->C: LST 8 FL 12 2 4 bibble@hotmail.com Bibble
+S->C: LST 8 FL 12 3 4 kate@hotmail.com ??āтē?
+S->C: LST 8 FL 12 4 4 sarah@hotmail.com ~~sarah~~
+
+有效的列表类型包括：
+
+FL（前锋名单）
+AL（允许列表）
+BL（黑名单）
+RL（反向列表）
+
+消息
+上下文：客户端通知
+功能：向客户端发送服务和帐户信息。上下文：客户端至交换机 功能：向会话发送消息。第二个参数是确认标志，可以是 U、N 或 A。具体值请参见下文。第三个参数是消息的长度。第三个参数后跟回车符和换行符。第四个参数是消息有效负载本身，与其他命令不同，此有效负载可以（通常）包含换行符。
+
+
+
+用法：
+C->S: MSG [TransactionID] [U|N|A] [MessageLength][CRLF][Message]
+
+例子：
+C->S: MSG 3 N 126
+C->S: MIME-Version: 1.0
+C->S: Content-Type: text/plain; charset=UTF-8
+C->S: X-MMS-IM-Format: FN=MS%20Sans%20Serif; EF=; CO=0; CS=0; PF=0
+C->S:
+C->S: hi
+
+ACK 标志：
+
+U（未确认，请勿回复 ACK 或 NAK）
+N（否定确认，如果消息发送失败则返回 NAK）
+A（确认，如果消息发送成功，则返回 ACK）
+上下文：交换机到客户端
+功能：从对话向客户端发送消息。第一个参数是消息发送者的帐户。第二个参数是发送用户的昵称。第三个参数是消息长度。第三个参数后跟一个回车符和一个换行符。第四个参数是消息正文，与其他命令不同，此有效负载可以（通常）包含换行符。
+
+用法：
+C->S: MSG [Account] [Nickname] [MessageLength][CRLF][Message]
+
+例子：
+C->S: MSG msnuser@hotmail.com MSNUser 130
+C->S: MIME-Version: 1.0
+C->S: Content-Type: text/plain; charset=UTF-8
+C->S: X-MMS-IM-Format: FN=MS%20Sans%20Serif; EF=; CO=0; CS=0; PF=0
+C->S:
+C->S: hello!
+
+
+NAK
+上下文：交换机到客户端
+功能：消息传递失败时向客户端发送否定确认。
+
+用法：
+S->C: NAK [TransactionID]
+
+例子：
+C->S: NAK 3
+
+
+NLN
+上下文： 通知客户端
+功能：通知客户端联系人的状态已从“离线”变为“在线”。
+
+用法：
+S->C: NLN [Status] [Account] [Nickname]
+
+例如（朋友登录时状态为“正在通话”）：
+S->C: NLN PHN friend@hotmail.com Friend
+
+
+输出
+上下文：客户端到调度器、客户端到通知、客户端到交换机
+功能：通知服务器客户端即将断开连接。无需参数。
+
+用法：
+C->S: OUT
+
+例子：
+C->S: OUT
+
+上下文：向客户端调度、向客户端通知、向客户端交换机调度
+
+功能：通过服务消息断开客户端连接或确认客户端断开连接。无需参数，但可以选择性地包含断开连接的原因。
+
+用法：
+S->C: OUT (Reason)
+
+例子：
+S->C: OUT
+
+例2：
+S->C: OUT OTH
+
+断开连接代码：
+
+OTH（用户已在其他地点登录）
+SSD（服务器正在关闭进行维护）
+
+REA
+上下文：客户端到通知
+函数：请求更改用户昵称或联系人的显示昵称。此方法适用于更改用户自己的昵称和更改联系人的本地昵称。昵称应进行 URL 编码。第二个参数是要更改昵称的帐户。第三个参数是要指定的新昵称。
+
+用法：
+C->S: REA [TransactionID] [Account] [Nickname]
+
+例子：
+C->S: REA 22 msnuser@hotmail.com My%20New%20Nickname
+
+上下文：客户端通知
+函数：返回更改昵称请求的结果。第二个参数是用户数据的新版本。第三个参数是要更改昵称的帐户。第四个参数是指定的新昵称。
+
+用法：
+S->C: REA [TransactionID] [ListVersion] [Account] [Nickname]
+
+例子：
+S->C: REA 22 19 msnuser@hotmail.com My%20New%20Nickname
+
+
+REM
+上下文：客户端到通知
+函数：请求从指定的联系人列表中删除联系人。第二个参数是要从中删除联系人的列表。第三个参数是要删除的联系人的帐户。
+
+用法：
+C->S: REM [TransactionID] [ListType] [Account]
+
+例子：
+C->S: REM 23 FL friend@hotmail.com
+
+上下文：客户端通知
+函数：返回从联系人列表中删除联系人的请求结果。第二个参数是要从中删除用户的列表。第三个参数是更新后用户数据的新版本。第四个参数是被删除的帐户。此用法也适用于用户从另一个用户的列表中删除的情况，服务器可以异步发送此通知，告知客户端联系人列表的更改。
+
+用法：
+S->C: REM [TransactionID] [ListType] [ListVersion] [Account]
+
+例子：
+S->C: REM 23 FL 13 friend@hotmail.com
+
+列表类型如下：
+
+FL（转发列表 – 用户希望关注的用户）
+AL（允许列表 – 用户希望允许联系的用户）
+BL（黑名单 – 用户不希望被联系的用户）
+RL（反向列表 – 关注该用户的其他帐户，用户无法修改）
+
+RNG
+上下文：客户端通知
+功能：通知客户端有新的会话请求。第一个参数是会话 ID。第二个参数是托管会话的交换机服务器的地址（以及端口，可选）。第三个参数是身份验证方法，始终为“CKI”。第四个和第五个参数分别是呼叫用户的帐户和昵称。
+
+用法：
+S->C: RNG [SessionID] [Address(:Port)] CKI [Key] [CallerAccount] [CallerNickname]
+
+例子：
+S->C: RNG 2036087 switchboard.hotmail.com:1863 CKI 849102291.520491932 friend@hotmail.com Friend
+
+
+SYN
+上下文：客户端到通知
+函数：请求用户状态信息和联系人列表。第二个参数是客户端本地保存的用户数据的当前版本。如果没有缓存数据，则此参数为 0。
+
+用法：
+C->S: SYN [TransactionID] [ListVersion]
+
+例子：
+C->S: SYN 8 10
+
+上下文：客户端通知
+功能：返回用户状态信息、联系人列表和当前联系人状态。第二个参数是服务器远程保存的用户数据的当前版本。收到 SYN 应答后，服务器还会发送 GTC、BLP、LST 和任何相关的 ILN。
+
+用法：
+S->C: SYN [TransactionID] [ListVersion]
+
+例子：
+S->C: SYN 8 12
+
+
+URL
+上下文：客户端到通知
+功能：请求一个用于执行基于 Web 的功能的 URL。第二个参数是所需的服务 URL。第三个参数取决于请求的 URL 类型，但它作为所请求服务的参数（如果需要），例如发送电子邮件的地址。
+
+用法：
+C->S: URL [TransactionID] [URLType] (Parameter)
+
+例子：
+C->S: URL 16 COMPOSE friend@hotmail.com
+
+上下文：通知客户端
+功能：根据请求的 URL 类型返回一个 URL。第二个参数目前未知。第三个参数是提供所请求服务的 URL。
+
+用法：
+S->C: URL [TransactionID] [?] [URL]
+
+例子：
+S->C: URL 16 unknown http://www.hotmail.com/cgi-bin/HoTMaiL
+
+支持的URL类型：
+
+撰写（不带任何参数，用于撰写空白邮件）
+撰写（后接收件人电子邮件地址）
+收件箱（用户的 Hotmail 收件箱）
+
+USR
+上下文：客户端到调度， 客户端到通知。
+功能：执行身份识别和认证。第二个参数是认证类型。对于客户端到调度和客户端到通知的连接，此参数始终为“MD5”。第三个参数指示 USR 命令是发起请求 (I) 还是后续响应 (S)。第四个参数取决于第三个参数。如果第三个参数为“I”，则此参数是用于标识帐户的用户电子邮件地址。如果第三个参数为“S”，则此参数是服务器身份验证质询的 MD5 哈希响应。
+
+用法（初始USR –客户端到调度，客户端到通知）：
+C->S: USR [TransactionID] MD5 I [Account]
+
+例子：
+C->S: USR 3 MD5 I msnuser@hotmail.com
+
+用法（后续USR –仅限客户端通知）：
+C->S: USR [TransactionID] MD5 S [Hashed Response]
+
+例子：
+C->S: USR 4 MD5 S f5bd15f23ca4229df95aaf3a7d706e48
+
+上下文：通知客户端
+功能：执行身份验证。第二个参数是身份验证类型或“OK”，具体取决于身份验证过程的阶段。对于正在进行的连接，身份验证类型始终为“MD5”。第三个参数同样取决于身份验证过程的进度，如果身份验证仍在进行中，则为“S”；如果身份验证已完成，则为用户的电子邮件地址。第四个参数也不同，在身份验证期间为质询字符串，在身份验证成功的情况下为用户的昵称。
+
+用法（初始用户请求）：
+S->C: USR [TransactionID] MD5 S [Challenge]
+
+示例：
+S->C: USR 3 MD5 S 1013928519.693957190
+
+用法（后续USR）：
+S->C: USR [TransactionID] OK [Account] [Nickname]
+
+例子：
+S->C: USR 4 OK msnuser@hotmail.com MSNUser
+
+上下文：客户端到交换机的
+功能：执行身份识别和认证。第二个参数是账户。第三个参数是客户端请求转接到交换机服务器时，通知服务器提供的密钥。
+
+用法：
+C->S: USR [TransactionID] [Account] [Key]
+
+例子：
+C->S: USR 27 msnuser@hotmail.com 17262740.1050826919.32308
+
+上下文：交换机到客户端
+功能：执行身份验证。如果身份验证成功，则第二个参数为“OK”。第三个参数是用户帐户。第四个参数是用户昵称。
+
+用法（后续USR）：
+S->C: USR [TransactionID] OK [Account] [Nickname]
+
+例子：
+S->C: USR 27 OK msnuser@hotmail.com MSNUser
+
+
+VER
+上下文：客户端到 Dispatch，客户端到 Notification
+功能：向服务器提供协议兼容性信息。
+
+用法：
+C->S: VER [TransactionID] [Protocol (Protocol Protocol...)]
+
+例子：
+C->S: VER 1 MSNP4 MSNP3 CVR0
+
+上下文：向客户端分发，向客户端通知
+函数：返回与客户端通信所选的协议。
+
+用法：
+S->C: VER [TransactionID] [Protocol (Protocol Protocol...)]
+
+例子：
+S->C: VER 1 MSNP4 CVR0
+
+对于所有用途，有效的协议如下：
+
+MSNP4、MSNP3、MSNP2、MSNP1
+CVR0（必填）
+
+XFR
+上下文：分发至客户端
+函数：通知客户端必须连接到另一个服务器才能继续连接到服务。第二个参数是服务器类型，在此用法中始终为“NS”，表示传输到通知服务器。
+
+用法：
+S->C: XFR [TransactionID] NS [Address(:Port)]
+
+例子：
+S->C: XFR 3 NS messenger.hotmail.com:1863
+
+上下文：客户端到通知
+功能：请求连接到交换机服务器。第二个参数是服务器类型，在此用法中始终为“SB”，表示传输到通知服务器。
+
+用法：
+C->S: XFR [TransactionID] SB
+
+例子：
+C->S: XFR 18 SB
+
+上下文：通知客户端
+功能：通知客户端必须连接到另一个服务器才能开始对话。第二个参数是服务器类型，通常为“SB”，表示要将连接转移到交换机服务器。有时通知服务器可能无法接受更多连接，如果通知服务器要求客户端连接到其他服务器，则其使用方式与上述“分发给客户端”相同。
+
+用法 示例：
+S->C: XFR [TransactionID] SB [Address:Port] [AuthType] [Key]
+
+
+S->C: XFR 25 SB switchboard.hotmail.com:1863 CKI 16925950.1016955577.17693
+
+
+示例调度服务器会话：
+
+客户端连接到服务器并协商协议版本： 客户端请求所需的身份验证方法： 客户端尝试开始身份验证，但被重定向到通知服务器： 服务器断开连接，客户端尝试连接到通知服务器。
+C->S: VER 4 MSNP4 MSNP3 CVR0
+S->C: VER 4 MSNP4 CVR0
+
+
+C->S: INF 2
+S->C: INF 2 MD5
+
+
+C->S: USR 3 MD5 I msnuser@hotmail.com
+S->C: XFR 3 NS messenger.hotmail.com:1863
+
+
+通知服务器会话示例：
+
+客户端连接到服务器并协商协议版本： 客户端请求所需的身份验证方法： 客户端尝试开始身份验证，并收到初始质询：
+C->S: VER 4 MSNP4 MSNP3 CVR0
+S->C: VER 4 MSNP4 CVR0
+
+
+C->S: INF 5
+S->C: INF 5 MD5
+
+
+C->S: USR 6 MD5 I msnuser@hotmail.com
+S->C: USR 6 MD5 S 1013928519.693957190
+
+客户端将用户密码连接起来，对结果进行哈希处理，然后将其发送到服务器，服务器完成身份验证： 客户端请求数据同步，客户端拥有帐户联系人列表和用户数据的第 10 个版本，服务器拥有第 12 个版本： 服务器开始向客户端同步数据，并发送隐私设置：
+C->S: USR 7 MD5 S f5bd15f23ca4229df95aaf3a7d706e48
+S->C: USR 7 OK msnuser@hotmail.com MSNUser
+
+
+C->S: SYN 8 10
+S->C: SYN 8 12
+
+
+S->C: GTC 8 12 A
+S->C: BLP 8 12 AL
+
+服务器继续向客户端同步数据，发送联系人数据的转发列表组件：
+S->C: LST 8 FL 12 1 4 friend@hotmail.com Friend
+S->C: LST 8 FL 12 2 4 bibble@hotmail.com Bibble
+S->C: LST 8 FL 12 3 4 kate@hotmail.com ??āтē?
+S->C: LST 8 FL 12 4 4 sarah@hotmail.com ~~sarah~~
+
+服务器继续向客户端同步数据，发送联系人数据的允许列表组件：
+S->C: LST 8 AL 12 1 4 friend@hotmail.com Friend
+S->C: LST 8 AL 12 2 4 bibble@hotmail.com Bibble
+S->C: LST 8 AL 12 3 4 kate@hotmail.com ??āтē?
+S->C: LST 8 AL 12 4 4 sarah@hotmail.com ~~sarah~~
+
+服务器继续向客户端同步数据，发送联系人数据的黑名单组件，该组件在本例中为空：
+S->C: LST 8 BL 12 0 0
+
+服务器继续向客户端同步数据，发送联系人数据的反向列表组件： 服务器继续向客户端同步数据，发送联系人的当前状态：
+S->C: LST 8 RL 12 1 4 friend@hotmail.com Friend
+S->C: LST 8 RL 12 2 4 bibble@hotmail.com Bibble
+S->C: LST 8 RL 12 3 4 kate@hotmail.com ??āтē?
+S->C: LST 8 RL 12 4 4 sarah@hotmail.com ~~sarah~~
+
+
+S->C: ILN 8 FLN friend@hotmail.com Friend
+S->C: ILN 8 FLN bibble@hotmail.com Bibble
+S->C: ILN 8 FLN kate@hotmail.com ??āтē?
+S->C: ILN 8 NLN sarah@hotmail.com ~~sarah~~
+
+客户端将其当前状态设置为“在线”，服务器通过回显请求来确认：
+C->S: CHG 9 NLN
+S->C: CHG 9 NLN
+
+客户端发送版本信息，服务器响应最低/推荐版本以及更新和信息的 URL：
+C->S: CVR 10 0x0409 win 4.90 i386 MSMSGS 2.2.1053 MSMSGS
+S->C: CVR 10 2.2.1053 2.2.1053 2.2.1053  http://messenger.hotmail.com/mmsetup.exe http://messenger.hotmail.com
+C->S: CVR 11 0x0409 win 4.90 i386 MSGSTRST 2.2.1053 MSMSGS
+S->C: CVR 11 2.2.1053 2.2.1053 2.2.1053  http://messenger.hotmail.com/mmsetup.exe http://messenger.hotmail.com
+
+此时客户端已连接，可以发送进一步的命令与服务进行交互。
+
+
+交换机服务器会话示例：
