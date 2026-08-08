@@ -1,0 +1,139 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Escargot7.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768" 
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True" xmlns:my="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+
+
+    <!--动画2-->
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <!-- 从其他页面返回时 (按返回键)，从右侧滑入并淡入 -->
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <!-- 从上一页进入时，从左侧滑入并淡入 -->
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+
+    <!-- 配置页面退出时的动画（可选） -->
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <!-- 返回上一页时，向右滑出并淡出 -->
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <!-- 进入下一页时，向左滑出并淡出 -->
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--枢轴控件-->
+        <controls:Pivot Title="Escargot7">
+            <!--枢轴项一-->
+            <controls:PivotItem Header="联系人">
+                <StackPanel Height="604" HorizontalAlignment="Left" Name="stackPanel1" VerticalAlignment="Top" Width="456">
+
+                    <Grid Height="502" Name="grid4" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <my:ProgressOverlay HorizontalAlignment="Left" Margin="0,-2,0,0" Name="progressOverlay1" VerticalAlignment="Top" Height="502" Width="456">
+                            <my:ProgressOverlay.Content>
+                                <StackPanel>
+                                    <TextBlock Text="加载中..." TextAlignment="Center" />
+                                    <ProgressBar IsIndeterminate="True" />
+                                </StackPanel>
+                            </my:ProgressOverlay.Content>
+                        </my:ProgressOverlay>
+                        <ListBox Height="502" Name="FirstListBox" VerticalAlignment="Bottom" SelectionChanged="FirstListBox_SelectionChanged">
+                        <!--
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="78" Margin="0,0,0,17" Width="432">
+                                    <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding LineOne}" TextWrapping="Wrap" />
+                                    <TextBlock Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LineTwo}" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        -->
+                        </ListBox>
+                    </Grid>
+                    <Grid Height="104" Name="grid1" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <my:RoundButton Content="添加好友" Height="91" HorizontalAlignment="Center" Name="roundButton2" VerticalAlignment="Top" Width="74" ImageSource="/Escargot7;component/images/rbton/add.png" Click="roundButton2_Click" />
+                        <my:RoundButton Content="发起聊天" Height="91" HorizontalAlignment="Center" Name="roundButton1" VerticalAlignment="Top" Width="74" Margin="113,0,262,0" ImageSource="/Escargot7;component/images/rbton/chat.png" Click="roundButton1_Click" />
+                        <my:RoundButton Content="删除好友" Height="91" HorizontalAlignment="Center" Name="roundButton3" VerticalAlignment="Top" Width="74" Margin="261,0,114,0" ImageSource="/Escargot7;component/images/rbton/delete.png" Click="roundButton3_Click" />
+                    </Grid>
+                </StackPanel>
+            </controls:PivotItem>
+ 
+            <!--枢轴项二-->
+            <controls:PivotItem Header="我的"> 
+                <!--无文字环绕的三线列表-->
+                <StackPanel Height="604" HorizontalAlignment="Left" Name="stackPanel2" VerticalAlignment="Top" Width="456">
+                    <!--
+                    <ListBox Height="502" ItemsSource="{Binding Items}" Name="FirstListBox" VerticalAlignment="Bottom">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="78" Margin="0,0,0,17" Width="432">
+                                    <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding LineOne}" TextWrapping="Wrap" />
+                                    <TextBlock Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LineTwo}" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    -->
+
+                    <Grid Height="502" Name="grid3" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <Image Height="80" HorizontalAlignment="Center" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="80" Margin="20,24,356,0" />
+                        <TextBlock Height="48" HorizontalAlignment="Left" Margin="115,26,0,0" Name="textBlock1" Text="昵称" VerticalAlignment="Top" Width="226" TextWrapping="NoWrap" TextTrimming="WordEllipsis" FontSize="32" />
+                        <my:RoundButton Height="91" HorizontalAlignment="Center" Margin="356,22,26,0" Name="roundButton7" VerticalAlignment="Top" Width="74" ImageSource="/Escargot7;component/images/rbton/edit.png" Click="roundButton7_Click" />
+                        <TextBlock FontSize="18" Height="32" HorizontalAlignment="Left" Margin="115,73,0,0" Name="textBlock2" Text="用户名" TextTrimming="WordEllipsis" TextWrapping="NoWrap" VerticalAlignment="Top" Width="226" />
+                        <toolkit:ListPicker Header="状态" Margin="12,148,12,-124" SelectionChanged="SelectionChanged_CHG" Name="chg_l_p">
+                            <toolkit:ListPickerItem Content="在线(NLN)" Tag="NLN" />
+                            <toolkit:ListPickerItem Content="离开(AWY)" Tag="AWY" />
+                            <toolkit:ListPickerItem Content="忙碌(BSY)" Tag="BSY" />
+                            <toolkit:ListPickerItem Content="隐身(HDN)" Tag="HDN" />
+                        </toolkit:ListPicker>
+                    </Grid>
+                    <Grid Height="104" Name="grid2" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <my:RoundButton Content="注销" Height="91" HorizontalAlignment="Center" Name="roundButton4" VerticalAlignment="Top" Width="74" ImageSource="/Escargot7;component/images/rbton/key.png" Click="roundButton4_Click" />
+                        <my:RoundButton Content="设置" Height="91" HorizontalAlignment="Center" Name="roundButton5" VerticalAlignment="Top" Width="74" Margin="113,0,262,0" ImageSource="/Escargot7;component/images/rbton/setting.png" Click="roundButton5_Click" />
+                        <my:RoundButton Content="关于" Height="91" HorizontalAlignment="Center" Name="roundButton6" VerticalAlignment="Top" Width="74" Margin="261,0,114,0" ImageSource="/Escargot7;component/images/rbton/question.png" Click="roundButton6_Click" />
+                    </Grid>
+                </StackPanel>
+            </controls:PivotItem>
+        </controls:Pivot>
+        
+    </Grid>
+ 
+    <!--演示 ApplicationBar 用法的示例代码-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="按钮 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="按钮 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="菜单项 1"/>
+                <shell:ApplicationBarMenuItem Text="菜单项 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

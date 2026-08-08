@@ -1,0 +1,88 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Escargot7.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True" xmlns:my="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+
+
+    <!--动画-->
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <!-- 从其他页面返回时，使用 SwivelTransition 的 BackwardIn 模式 -->
+                <toolkit:SwivelTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <!-- 从其他页面首次进入时，使用 SwivelTransition 的 ForwardIn 模式 -->
+                <toolkit:SwivelTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <!-- 按返回键离开当前页面时，使用 SwivelTransition 的 BackwardOut 模式 -->
+                <toolkit:SwivelTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <!-- 向前导航离开当前页面时，使用 SwivelTransition 的 ForwardOut 模式 -->
+                <toolkit:SwivelTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    
+    
+    
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="Escargot7" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="关于" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid Height="502" Name="grid4" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,103">
+                <TextBlock Height="59" HorizontalAlignment="Center" Name="textBlock1" Text="Escargot7" VerticalAlignment="Top" Margin="0,70,0,0" FontWeight="Bold" FontSize="36" />
+                <TextBlock Height="30" HorizontalAlignment="Center" Margin="0,123,0,0" Name="textBlock2" Text="For Windows Phone 7" VerticalAlignment="Top" />
+                <TextBlock Height="30" HorizontalAlignment="Center" Margin="0,168,0,0" Name="build_t" Text="版本NAN(BuildNAN)" VerticalAlignment="Top" />
+                <TextBlock Height="30" HorizontalAlignment="Center" Margin="0,405,0,0" Name="textBlock4" Text="Safe Mods(启动图设计)" VerticalAlignment="Top" FontWeight="Bold" FontSize="24" FontFamily="Portable User Interface" FontStyle="Normal"><TextBlock.Foreground><LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5"><GradientStop Color="LightCoral" Offset="0" /><GradientStop Color="DarkOrange" Offset="1" /></LinearGradientBrush></TextBlock.Foreground></TextBlock>
+                <TextBlock Height="30" HorizontalAlignment="Center" Margin="0,469,0,0" Name="textBlock5" Text="本软件仅供学习和交流，严禁用于任何非法用途！" VerticalAlignment="Top" Foreground="Red" />
+                <TextBlock Height="30" HorizontalAlignment="Center" Margin="0,438,0,0" Name="textBlock6" Text="本软件使用C#编写，并且是开源的！" VerticalAlignment="Top" />
+                <TextBlock FontFamily="Portable User Interface" FontSize="24" FontWeight="Bold" Height="30" HorizontalAlignment="Center" Margin="0,375,0,0" Name="textBlock3" Text="WindowsVistaSP(软件开发)" VerticalAlignment="Top" FontStyle="Normal"><TextBlock.Foreground><LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5"><GradientStop Color="DarkTurquoise" Offset="0" /><GradientStop Color="SpringGreen" Offset="1" /></LinearGradientBrush></TextBlock.Foreground></TextBlock>
+            </Grid>
+            <Grid Height="104" Name="grid1" Width="456" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <my:RoundButton Content="关闭" Height="91" HorizontalAlignment="Center" Name="roundButton2" VerticalAlignment="Top" Width="74" ImageSource="/Escargot7;component/images/rbton/close.png" Click="roundButton2_Click" />
+            </Grid>
+        </Grid>
+    </Grid>
+ 
+    <!--演示 ApplicationBar 用法的示例代码-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="按钮 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="按钮 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="菜单项 1"/>
+                <shell:ApplicationBarMenuItem Text="菜单项 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

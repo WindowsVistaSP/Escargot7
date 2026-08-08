@@ -1,0 +1,8 @@
+C:\Users\Windows1\documents\visual studio 2010\Projects\CodingForFun TEST\MSN_Protocol\Bin\Debug\MSN_Protocol.dll
+C:\Users\Windows1\documents\visual studio 2010\Projects\CodingForFun TEST\MSN_Protocol\Bin\Debug\MSN_Protocol.pdb
+C:\Users\Windows1\documents\visual studio 2010\Projects\CodingForFun TEST\MSN_Protocol\obj\Debug\MSN_Protocol.dll
+C:\Users\Windows1\documents\visual studio 2010\Projects\CodingForFun TEST\MSN_Protocol\obj\Debug\MSN_Protocol.pdb
+C:\Users\Windows1\Documents\Visual Studio 2010\Projects\Escargot7\MSN_Protocol\Bin\Debug\MSN_Protocol.dll
+C:\Users\Windows1\Documents\Visual Studio 2010\Projects\Escargot7\MSN_Protocol\Bin\Debug\MSN_Protocol.pdb
+C:\Users\Windows1\Documents\Visual Studio 2010\Projects\Escargot7\MSN_Protocol\obj\Debug\MSN_Protocol.dll
+C:\Users\Windows1\Documents\Visual Studio 2010\Projects\Escargot7\MSN_Protocol\obj\Debug\MSN_Protocol.pdb
